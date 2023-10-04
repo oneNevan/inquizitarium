@@ -38,6 +38,8 @@ jobs:
         run: docker compose exec -T php vendor/bin/php-cs-fixer fix -v --dry-run
       - name: "Check code via static analyzer (Psalm)"
         run: docker compose exec -T php vendor/bin/psalm --no-diff --no-cache
+      - name: Run PHPUnit
+        run: docker compose exec -T php bin/phpunit
       - name: Check HTTP reachability
         run: curl -v -o /dev/null http://localhost
       - name: Check HTTPS reachability
@@ -48,9 +50,6 @@ jobs:
       - name: Run migrations
         if: false # Remove this line if Doctrine Migrations is installed
         run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
-      - name: Run PHPUnit
-        if: false # Remove this line if PHPUnit is installed
-        run: docker compose exec -T php bin/phpunit
       - name: Doctrine Schema Validator
         if: false # Remove this line if Doctrine ORM is installed
         run: docker compose exec -T php bin/console -e test doctrine:schema:validate
