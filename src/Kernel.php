@@ -10,7 +10,10 @@ class Kernel extends BaseKernel
     use MicroKernelTrait;
 
     /**
-     * Testing php cs fixer in CI.
+     * Testing Psalm in CI.
      */
-    public function dummyMethod() {}
+    public function dummyMethod(): bool
+    {
+        return 42;
+    }
 }
