@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Quiz\Domain\QuizResult;
+namespace App\Quiz\Domain\CheckedQuiz;
 
 use Ramsey\Uuid\UuidInterface;
 
-final readonly class Result
+final readonly class Quiz
 {
     /**
      * @param non-empty-list<CheckedQuestion> $questions

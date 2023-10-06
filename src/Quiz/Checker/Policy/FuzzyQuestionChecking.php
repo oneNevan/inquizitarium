@@ -6,8 +6,8 @@ namespace App\Quiz\Checker\Policy;
 
 use App\Math\Comparator\Comparator;
 use App\Math\Comparator\ComparatorInterface;
-use App\Quiz\Domain\QuizResult\CheckedAnswer;
-use App\Quiz\Domain\QuizResult\CheckedQuestion;
+use App\Quiz\Domain\CheckedQuiz\CheckedAnswer;
+use App\Quiz\Domain\CheckedQuiz\CheckedQuestion;
 use App\Quiz\Domain\SolvedQuiz\AnsweredQuestion;
 
 /**

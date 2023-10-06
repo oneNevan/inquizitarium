@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Quiz\Domain\QuizResult;
+namespace App\Quiz\Domain\CheckedQuiz;
 
 use App\Math\Domain\Expression\ExpressionInterface;
 use App\Math\Domain\Operators\ComparisonOperator;

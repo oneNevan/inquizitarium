@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Quiz\Checker\Policy;
 
-use App\Quiz\Domain\QuizResult\CheckedQuestion;
+use App\Quiz\Domain\CheckedQuiz\CheckedQuestion;
 
-interface QuizPassingPolicyInterface
+interface QuizAssessmentPolicyInterface
 {
     /**
      * @param non-empty-list<CheckedQuestion> $checkedQuestions

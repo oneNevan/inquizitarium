@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Quiz\Domain;
 
-use App\Quiz\Domain\QuizResult\Result;
+use App\Quiz\Domain\CheckedQuiz\Quiz;
 
 final readonly class QuizCheckedEvent
 {
     public function __construct(
-        private Result $quizResult,
+        private Quiz $quizResult,
     ) {
     }
 
     /**
      * @psalm-api
      */
-    public function getQuizResult(): Result
+    public function getQuizResult(): Quiz
     {
         return $this->quizResult;
     }

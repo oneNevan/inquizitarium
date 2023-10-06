@@ -7,7 +7,7 @@ namespace App\Tests\Integration\Quiz\Checker;
 use App\Math\Domain\Expression\Expression;
 use App\Math\Domain\Operators\ComparisonOperator;
 use App\Quiz\Checker\CheckQuiz;
-use App\Quiz\Domain\QuizResult\Result;
+use App\Quiz\Domain\CheckedQuiz\Quiz;
 use App\Quiz\Domain\SolvedQuiz\AnsweredQuestion;
 use App\Quiz\Domain\SolvedQuiz\AnswerOption;
 use App\Tests\Integration\MessageBusAwareTestCase;
@@ -94,14 +94,14 @@ class QuizCheckerTest extends KernelTestCase
     /**
      * @param non-empty-list<AnsweredQuestion> $answeredQuestions
      */
-    private function executeCheckQuizCommand(array $answeredQuestions): Result
+    private function executeCheckQuizCommand(array $answeredQuestions): Quiz
     {
         $quizId = (new UuidFactory())->uuid7();
         $envelope = $this->getCommandBus()->dispatch(new CheckQuiz($quizId, $answeredQuestions));
-        $quizResult = $envelope->last(HandledStamp::class)?->getResult();
-        $this->assertInstanceOf(Result::class, $quizResult);
-        $this->assertCount(count($answeredQuestions), $quizResult->getQuestions());
+        $checkedQuiz = $envelope->last(HandledStamp::class)?->getResult();
+        $this->assertInstanceOf(Quiz::class, $checkedQuiz);
+        $this->assertCount(count($answeredQuestions), $checkedQuiz->getQuestions());
 
-        return $quizResult;
+        return $checkedQuiz;
     }
 }

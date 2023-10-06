@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Quiz\Checker\Policy;
 
-class PassingWhenAllAnswersCorrect implements QuizPassingPolicyInterface
+class PassedWhenAllAnswersCorrect implements QuizAssessmentPolicyInterface
 {
     public function isPassed(array $checkedQuestions): bool
     {
