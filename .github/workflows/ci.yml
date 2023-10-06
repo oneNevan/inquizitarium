@@ -34,12 +34,14 @@ jobs:
             *.cache-to=type=gha,scope=${{github.ref}},mode=max
       - name: Start services
         run: docker compose up --wait --no-build
-      - name: "Check code via linter (PHP-CS-Fixer)"
+      - name: Run linter (PHP CS Fixer)
         run: docker compose exec -T php vendor/bin/php-cs-fixer fix -v --dry-run
-      - name: "Check code via static analyzer (Psalm)"
+      - name: Run static analyzer (Psalm)
         run: docker compose exec -T php vendor/bin/psalm --no-diff --no-cache
-      - name: Run PHPUnit
-        run: docker compose exec -T php bin/phpunit
+      - name: Run Unit tests
+        run: docker compose exec -T php bin/phpunit tests/Unit/
+      - name: Run Integration tests
+        run: docker compose exec -T php bin/phpunit tests/Integration/
       - name: Check HTTP reachability
         run: curl -v -o /dev/null http://localhost
       - name: Check HTTPS reachability
