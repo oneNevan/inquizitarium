@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Quiz\Checker\Policy;
+namespace App\Quiz\Domain\SolvedQuiz;
 
 use App\Math\Domain\Expression\ExpressionInterface;
 use App\Math\Domain\Operators\ComparisonOperator;
-use App\Quiz\Checker\QuizCheckerExceptionInterface;
 
-final class QuestionHasNoSelectedAnswersException extends \Exception implements QuizCheckerExceptionInterface
+final class QuestionHasNoSelectedAnswersException extends \DomainException
 {
     public function __construct(
         ExpressionInterface $question,

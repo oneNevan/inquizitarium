@@ -9,6 +9,7 @@ use App\Math\Comparator\ComparatorInterface;
 use App\Quiz\Domain\CheckedQuiz\CheckedAnswer;
 use App\Quiz\Domain\CheckedQuiz\CheckedQuestion;
 use App\Quiz\Domain\SolvedQuiz\AnsweredQuestion;
+use App\Quiz\Domain\SolvedQuiz\QuestionHasNoSelectedAnswersException;
 
 /**
  * Fuzzy question checking policy implementation.

@@ -44,7 +44,7 @@ final readonly class InMemoryQuestionPool implements QuestionPoolInterface
             for ($j = 1; $j < $this->answersPerQuestionCount; ++$j) {
                 $answers[] = new RandomExpression($this->questionsCount);
             }
-            shuffle($answers);
+            shuffle($answers); // so that correct answer is not always first
 
             yield new Question(new Expression($question), ComparisonOperator::Equal, $answers);
             --$i;

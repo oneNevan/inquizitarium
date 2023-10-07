@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Quiz\Domain\QuestionPool;
 
-use App\Quiz\Creator\QuizCreatorExceptionInterface;
-
-final class QuestionPoolIsEmptyException extends \Exception implements QuizCreatorExceptionInterface
+final class QuestionPoolIsEmptyException extends \DomainException
 {
     public function __construct()
     {

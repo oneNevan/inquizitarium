@@ -7,9 +7,9 @@ namespace App\Tests\Unit\Quiz\Checker;
 use App\Math\Domain\Expression\Expression;
 use App\Math\Domain\Operators\ComparisonOperator;
 use App\Quiz\Checker\Policy\FuzzyQuestionChecking;
-use App\Quiz\Checker\Policy\QuestionHasNoSelectedAnswersException;
 use App\Quiz\Domain\SolvedQuiz\AnsweredQuestion;
 use App\Quiz\Domain\SolvedQuiz\AnswerOption;
+use App\Quiz\Domain\SolvedQuiz\QuestionHasNoSelectedAnswersException;
 use PHPUnit\Framework\TestCase;
 
 class FuzzyQuestionCheckingTest extends TestCase

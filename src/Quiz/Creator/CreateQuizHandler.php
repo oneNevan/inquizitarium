@@ -28,12 +28,12 @@ final readonly class CreateQuizHandler
      */
     public function __invoke(CreateQuiz $command): Quiz
     {
-        $quiz = $this->factory->create($this->questionPool);
+        $newQuiz = $this->factory->create($this->questionPool);
 
-        $this->eventBus->dispatch(new QuizCreatedEvent($quiz), [
+        $this->eventBus->dispatch(new QuizCreatedEvent($newQuiz), [
             new DispatchAfterCurrentBusStamp(),
         ]);
 
-        return $quiz;
+        return $newQuiz;
     }
 }
