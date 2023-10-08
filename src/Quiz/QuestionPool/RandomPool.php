@@ -65,7 +65,7 @@ final readonly class RandomPool implements QuestionPoolInterface
      *
      * @param positive-int $count
      *
-     * @return ExpressionInterface
+     * @return list<ExpressionInterface>
      *
      * @throws \Exception if random_int(...) fails
      */
