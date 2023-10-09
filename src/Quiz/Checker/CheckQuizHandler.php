@@ -14,9 +14,6 @@ use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
 
 final readonly class CheckQuizHandler
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         private QuestionCheckingPolicyInterface $questionCheckingPolicy,
         private QuizAssessmentPolicyInterface $quizAssessmentPolicy,

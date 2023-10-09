@@ -13,8 +13,9 @@ return static function (ContainerConfigurator $configurator): void {
         ->autowire()
         ->autoconfigure();
 
-    $services->set(CreateQuizHandler::class)
-        ->tag('messenger.message_handler');
+    $services->set(CreateQuizHandler::class)->tag('messenger.message_handler', [
+        'bus' => 'command.bus',
+    ]);
 
     $services->set(QuizFactory::class);
     $services->alias(QuizFactoryInterface::class, QuizFactory::class);

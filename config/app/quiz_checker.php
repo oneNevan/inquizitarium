@@ -26,6 +26,7 @@ return static function (ContainerConfigurator $configurator): void {
     $services->set(CheckedQuizFactory::class);
     $services->alias(QuizFactoryInterface::class, CheckedQuizFactory::class);
 
-    $services->set(CheckQuizHandler::class)
-        ->tag('messenger.message_handler');
+    $services->set(CheckQuizHandler::class)->tag('messenger.message_handler', [
+        'bus' => 'command.bus',
+    ]);
 };

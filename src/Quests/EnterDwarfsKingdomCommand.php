@@ -33,9 +33,6 @@ final class EnterDwarfsKingdomCommand extends Command
 
     private bool $debugMode = false;
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         private readonly MessageBusInterface $commandBus,
         private readonly ?LoggerInterface $logger = null,

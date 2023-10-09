@@ -20,9 +20,6 @@ use App\Quiz\Domain\SolvedQuiz\QuestionHasNoSelectedAnswersException;
  */
 final readonly class FuzzyQuestionChecking implements QuestionCheckingPolicyInterface
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         private ComparatorInterface $expressionComparator = new Comparator(),
     ) {

@@ -12,9 +12,6 @@ use Ramsey\Uuid\UuidFactory;
 
 final readonly class QuizFactory implements QuizFactoryInterface
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         private UuidFactory $uuidFactory = new UuidFactory(),
     ) {

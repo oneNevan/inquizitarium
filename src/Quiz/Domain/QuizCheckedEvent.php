@@ -9,15 +9,15 @@ use App\Quiz\Domain\CheckedQuiz\Quiz;
 final readonly class QuizCheckedEvent
 {
     public function __construct(
-        private Quiz $quizResult,
+        private Quiz $quiz,
     ) {
     }
 
     /**
      * @psalm-api
      */
-    public function getQuizResult(): Quiz
+    public function getQuiz(): Quiz
     {
-        return $this->quizResult;
+        return $this->quiz;
     }
 }

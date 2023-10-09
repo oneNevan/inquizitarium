@@ -14,7 +14,7 @@ final readonly class CheckedAnswer
      */
     public function __construct(
         private ExpressionInterface $expression,
-        private ?bool $isCorrect = null,
+        private ?bool $isCorrect,
     ) {
     }
 

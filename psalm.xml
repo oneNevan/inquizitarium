@@ -21,4 +21,12 @@
             <containerXml>var/cache/dev/App_KernelDevDebugContainer.xml</containerXml>
         </pluginClass>
     </plugins>
+
+    <issueHandlers>
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="*::__construct" />
+            </errorLevel>
+        </PossiblyUnusedMethod>
+    </issueHandlers>
 </psalm>

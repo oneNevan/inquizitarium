@@ -26,9 +26,6 @@ use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
  */
 final readonly class CreateQuizHandler
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         private QuestionPoolInterface $questionPool,
         private QuizFactoryInterface $factory,

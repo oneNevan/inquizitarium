@@ -17,9 +17,6 @@ use App\Quiz\Domain\QuestionPool\QuestionPoolInterface;
  */
 final readonly class RandomPool implements QuestionPoolInterface
 {
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     */
     public function __construct(
         private int $questionsCount = 10,
         private int $maxAnswerOptions = 5,
