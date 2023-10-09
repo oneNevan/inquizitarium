@@ -5,6 +5,7 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
+    errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
         <directory name="src"/>
@@ -23,6 +24,11 @@
     </plugins>
 
     <issueHandlers>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Symfony\Config\*Config" />
+            </errorLevel>
+        </UndefinedClass>
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
                 <referencedMethod name="*::__construct" />
