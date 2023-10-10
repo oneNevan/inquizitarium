@@ -10,15 +10,16 @@ use App\Quiz\Checker\CheckQuiz;
 use App\Quiz\Domain\CheckedQuiz\Quiz;
 use App\Quiz\Domain\SolvedQuiz\AnsweredQuestion;
 use App\Quiz\Domain\SolvedQuiz\AnswerOption;
+use App\Tests\Integration\InvalidCommandTestCase;
 use App\Tests\Integration\MessageBusAwareTestCase;
 use Ramsey\Uuid\UuidFactory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Messenger\Exception\ValidationFailedException;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 class QuizCheckerTest extends KernelTestCase
 {
     use MessageBusAwareTestCase;
+    use InvalidCommandTestCase;
 
     public function testQuizPassed(): void
     {
@@ -60,35 +61,28 @@ class QuizCheckerTest extends KernelTestCase
         $this->assertFalse($quizResult->isPassed());
     }
 
-    /**
-     * @dataProvider invalidQuizProvider
-     */
-    public function testInvalidQuizException(array $answeredQuestions, string $invalidProperty): void
-    {
-        try {
-            $this->executeCheckQuizCommand($answeredQuestions);
-            $this->fail('Command must have failed with an error');
-        } catch (ValidationFailedException $e) {
-            $violations = $e->getViolations();
-            $this->assertCount(1, $violations);
-            $this->assertSame($invalidProperty, $violations[0]->getPropertyPath());
-        }
-    }
-
-    public function invalidQuizProvider(): iterable
+    public function invalidCommandProvider(): iterable
     {
         return [
             'empty question list' => [
-                [],
+                $this->createCommand([]),
                 'questions',
             ],
             'empty answers list' => [
-                [
+                $this->createCommand([
                     new AnsweredQuestion(new Expression('10 + 10'), ComparisonOperator::Equal, []),
-                ],
+                ]),
                 'questions[0].answers',
             ],
         ];
+    }
+
+    private function createCommand(array $answeredQuestions): CheckQuiz
+    {
+        return new CheckQuiz(
+            (new UuidFactory())->uuid7(),
+            $answeredQuestions
+        );
     }
 
     /**
@@ -96,8 +90,8 @@ class QuizCheckerTest extends KernelTestCase
      */
     private function executeCheckQuizCommand(array $answeredQuestions): Quiz
     {
-        $quizId = (new UuidFactory())->uuid7();
-        $envelope = $this->getCommandBus()->dispatch(new CheckQuiz($quizId, $answeredQuestions));
+        $command = $this->createCommand($answeredQuestions);
+        $envelope = $this->getCommandBus()->dispatch($command);
         $checkedQuiz = $envelope->last(HandledStamp::class)?->getResult();
         $this->assertInstanceOf(Quiz::class, $checkedQuiz);
         $this->assertCount(count($answeredQuestions), $checkedQuiz->getQuestions());

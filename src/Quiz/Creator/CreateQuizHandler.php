@@ -33,12 +33,9 @@ final readonly class CreateQuizHandler
     ) {
     }
 
-    /**
-     * @psalm-suppress UnusedParam
-     */
     public function __invoke(CreateQuiz $command): Quiz
     {
-        $newQuiz = $this->factory->create($this->questionPool);
+        $newQuiz = $this->factory->create($this->questionPool, $command->getQuestionsCount());
 
         $this->eventBus->dispatch(new QuizCreatedEvent($newQuiz), [
             new DispatchAfterCurrentBusStamp(),

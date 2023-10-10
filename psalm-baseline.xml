@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+  <file src="src/Quiz/QuestionPool/Orm/Question.php">
+    <PossiblyUnusedMethod>
+      <code>getId</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Quiz/QuestionPool/Orm/QuestionRepository.php">
+    <PossiblyUnusedParam>
+      <code>$registry</code>
+    </PossiblyUnusedParam>
+  </file>
   <file src="src/Quiz/ResultsStorage/Orm/Answer.php">
     <PossiblyUnusedMethod>
       <code>getId</code>

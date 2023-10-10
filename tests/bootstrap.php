@@ -37,6 +37,10 @@ if (filter_var($_ENV['RESET_TEST_DB'] ?? 'false', FILTER_VALIDATE_BOOL)) {
         'command' => 'doctrine:migrations:migrate',
         '--no-interaction' => true,
     ]));
+    $cli->run(new ArrayInput([
+        'command' => 'doctrine:fixtures:load',
+        '--append' => true,
+    ]));
 
     $kernel->shutdown();
 }

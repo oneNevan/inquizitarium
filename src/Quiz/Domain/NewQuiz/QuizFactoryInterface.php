@@ -8,5 +8,8 @@ use App\Quiz\Domain\QuestionPool\QuestionPoolInterface;
 
 interface QuizFactoryInterface
 {
-    public function create(QuestionPoolInterface $pool): Quiz;
+    /**
+     * @param positive-int|null $questionsLimit
+     */
+    public function create(QuestionPoolInterface $pool, int $questionsLimit = null): Quiz;
 }

@@ -6,33 +6,28 @@ namespace App\Tests\Integration\Quiz\Creator;
 
 use App\Quiz\Creator\CreateQuiz;
 use App\Quiz\Domain\NewQuiz\Quiz;
-use App\Quiz\Domain\QuestionPool\QuestionPoolInterface;
-use App\Quiz\QuestionPool\RandomPool;
+use App\Tests\Integration\InvalidCommandTestCase;
 use App\Tests\Integration\MessageBusAwareTestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 class QuizCreatorTest extends KernelTestCase
 {
     use MessageBusAwareTestCase;
+    use InvalidCommandTestCase;
 
-    public function testCreateQuiz(): void
+    public function testCommandHandled(): void
     {
         $envelope = $this->getCommandBus()->dispatch(new CreateQuiz());
         $quiz = $envelope->last(HandledStamp::class)?->getResult();
         $this->assertInstanceOf(Quiz::class, $quiz);
-        $this->assertNotEmpty($quiz->getQuestions());
-        foreach ($quiz->getQuestions() as $question) {
-            $this->assertNotEmpty($question->getAnswerOptions());
-        }
     }
 
-    public function testEmptyQuestionPoolException(): void
+    public function invalidCommandProvider(): iterable
     {
-        self::getContainer()->set(QuestionPoolInterface::class, new RandomPool(0));
-        $this->expectException(HandlerFailedException::class);
-        $this->expectExceptionMessage('Question pool is empty');
-        $this->getCommandBus()->dispatch(new CreateQuiz());
+        return [
+            'zero limit' => [new CreateQuiz(0), 'questionsCount'],
+            'negative limit' => [new CreateQuiz(-1), 'questionsCount'],
+        ];
     }
 }
