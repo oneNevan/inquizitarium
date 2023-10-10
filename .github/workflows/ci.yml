@@ -40,18 +40,17 @@ jobs:
         run: docker compose exec -T php vendor/bin/psalm --no-diff --no-cache
       - name: Run Unit tests
         run: docker compose exec -T php bin/phpunit tests/Unit/
+      - name: Create test database
+        run: docker compose exec -T php bin/console -e test doctrine:database:create
+      - name: Run migrations
+        run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
+      - name: Doctrine Schema Validator
+        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+      - name: Execute Doctrine Fixtures
+        run: docker compose exec -T php bin/console -e test doctrine:fixtures:load --append
       - name: Run Integration tests
         run: docker compose exec -T php bin/phpunit tests/Integration/
       - name: Check HTTP reachability
         run: curl -v -o /dev/null http://localhost
       - name: Check HTTPS reachability
         run: curl -vk -o /dev/null https://localhost
-      - name: Create test database
-        if: false # Remove this line if Doctrine ORM is installed
-        run: docker compose exec -T php bin/console -e test doctrine:database:create
-      - name: Run migrations
-        if: false # Remove this line if Doctrine Migrations is installed
-        run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
-      - name: Doctrine Schema Validator
-        if: false # Remove this line if Doctrine ORM is installed
-        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
