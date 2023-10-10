@@ -7,12 +7,9 @@ namespace App\Quiz\QuestionPool;
 use App\Quiz\Domain\QuestionPool\QuestionPoolInterface;
 
 /**
- * Decorator for empty database pool.
- *
- * Using a fallback pool if the database pool is empty, so that by default users don't have to run fixtures
- * or fill the database - it should just work out for the box :)
+ * Decorator for question pool, using another pool as fallback, if the decorated one is empty.
  */
-final readonly class DatabaseFallbackPool implements QuestionPoolInterface
+final readonly class FallbackPool implements QuestionPoolInterface
 {
     public function __construct(
         private QuestionPoolInterface $decoratedPool,

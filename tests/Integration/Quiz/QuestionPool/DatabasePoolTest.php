@@ -7,7 +7,7 @@ namespace App\Tests\Integration\Quiz\QuestionPool;
 use App\Math\Domain\Expression\Expression;
 use App\Math\Domain\Operators\ComparisonOperator;
 use App\Quiz\Domain\QuestionPool\QuestionPoolInterface;
-use App\Quiz\QuestionPool\DatabaseFallbackPool;
+use App\Quiz\QuestionPool\FallbackPool;
 use App\Quiz\QuestionPool\Orm\QuestionFixture;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -18,7 +18,7 @@ class DatabasePoolTest extends KernelTestCase
         /** @var QuestionPoolInterface $questionsPool */
         $questionsPool = static::getContainer()->get(QuestionPoolInterface::class);
         // making sure that decorator is applied
-        $this->assertInstanceOf(DatabaseFallbackPool::class, $questionsPool);
+        $this->assertInstanceOf(FallbackPool::class, $questionsPool);
 
         $pool = [];
         foreach ($questionsPool->getQuestions() as $question) {
