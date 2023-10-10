@@ -19,4 +19,18 @@ class QuestionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Question::class);
     }
+
+    /**
+     * @param positive-int|null $limit
+     *
+     * @return Question[]
+     */
+    public function getRandom(int $limit = null): array
+    {
+        return $this->createQueryBuilder('q')
+            ->orderBy('RANDOM()')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

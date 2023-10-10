@@ -32,15 +32,29 @@ class DatabasePoolTest extends KernelTestCase
         // using refleciton to avoid making the constant public just for testing purposes...
         $defaultPool = (new \ReflectionClassConstant(QuestionFixture::class, 'POOL'))->getValue();
         $this->assertIsArray($defaultPool);
-        $this->assertNotEquals($defaultPool, $pool, 'Failed asserting that questions were shuffled');
+        $this->assertNotEquals(
+            array_keys($defaultPool),
+            array_keys($pool),
+            'Failed asserting that questions are shuffled',
+        );
 
-        // sorting both arrays to check if they are actually equal
+        // sorting both arrays to check answers are shuffled
         $sort = static fn (array &$answers) => sort($answers, \SORT_STRING);
         ksort($pool, \SORT_STRING);
         ksort($defaultPool, \SORT_STRING);
+        $this->assertNotEquals(
+            array_values($defaultPool),
+            array_values($pool),
+            'Failed asserting that answers are shuffled',
+        );
+
+        // sorting shuffled answers to check if sorted pools are actually equal
         array_walk($pool, $sort);
         array_walk($defaultPool, $sort);
-
-        $this->assertEquals($defaultPool, $pool);
+        $this->assertEquals(
+            $defaultPool,
+            $pool,
+            'Failed asserting that test pool matches the default pool',
+        );
     }
 }

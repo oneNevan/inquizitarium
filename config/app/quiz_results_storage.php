@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Infrastructure\Config\DoctrineMappingConfigurator;
+use App\Infrastructure\Doctrine\Config\DoctrineMappingConfigurator;
 use App\Quiz\ResultsStorage\Orm;
 use App\Quiz\ResultsStorage\QuizCheckedEventHandler;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;

@@ -13,21 +13,20 @@ final readonly class DatabasePool implements QuestionPoolInterface
 {
     public function __construct(
         private QuestionRepository $repository,
-        private bool $shuffle = true,
+        private bool $shuffle = false,
     ) {
     }
 
-    public function getQuestions(): iterable
+    /**
+     * TODO: add $limit argument to getQuestions() method?
+     *  So that question pool could stop if limit reached.
+     */
+    public function getQuestions(/* int $limit = null */): iterable
     {
-        // TODO: custom query to get questions in random order
-        //  like that: select * from quiz_question_pool order by RANDOM();
-        //   - https://www.commandprompt.com/education/postgresql-order-by-random/
-        //   - https://badtry.net/doctrine-rand-symfony-4-slim-doctrine-random-order-by/
-        //   - https://symfony.com/doc/current/doctrine/custom_dql_functions.html
-        foreach ($this->repository->findAll() as $question) {
+        foreach ($this->shuffle ? $this->repository->getRandom() : $this->repository->findAll() as $question) {
             $answers = $question->getAnswerOptions();
             if ($this->shuffle) {
-                // it's fine to shuffle few answers after getting it from the database, no performance concern here...
+                // it's fine to shuffle few answers after getting from the database, no performance concern here...
                 shuffle($answers);
             }
 

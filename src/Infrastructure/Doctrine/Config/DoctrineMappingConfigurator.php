@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Config;
+namespace App\Infrastructure\Doctrine\Config;
 
 use Symfony\Config\DoctrineConfig;
 
