@@ -8,9 +8,6 @@ use Symfony\Config\DoctrineConfig;
 
 final readonly class DoctrineMappingConfigurator
 {
-    /**
-     * @psalm-suppress UnusedConstructor
-     */
     private function __construct()
     {
     }

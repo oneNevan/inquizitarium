@@ -1,59 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
-  <file src="src/Quiz/QuestionPool/Orm/Question.php">
-    <PossiblyUnusedMethod>
-      <code>getId</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Quiz/QuestionPool/Orm/QuestionRepository.php">
-    <PossiblyUnusedParam>
-      <code>$registry</code>
-    </PossiblyUnusedParam>
-  </file>
-  <file src="src/Quiz/ResultsStorage/Orm/Answer.php">
-    <PossiblyUnusedMethod>
-      <code>getId</code>
-      <code>getQuestion</code>
-      <code>getText</code>
-      <code>isCorrect</code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Quiz/ResultsStorage/Orm/AnswerRepository.php">
-    <PossiblyUnusedParam>
-      <code>$registry</code>
-    </PossiblyUnusedParam>
-  </file>
   <file src="src/Quiz/ResultsStorage/Orm/Question.php">
-    <PossiblyUnusedMethod>
-      <code>getAnswers</code>
-      <code>getId</code>
-      <code>getResult</code>
-      <code>getText</code>
-      <code>isAnswerAccepted</code>
-    </PossiblyUnusedMethod>
     <RedundantConditionGivenDocblockType>
       <code><![CDATA[!$this->answers->contains($answer)]]></code>
     </RedundantConditionGivenDocblockType>
   </file>
-  <file src="src/Quiz/ResultsStorage/Orm/QuestionRepository.php">
-    <PossiblyUnusedParam>
-      <code>$registry</code>
-    </PossiblyUnusedParam>
-  </file>
   <file src="src/Quiz/ResultsStorage/Orm/Result.php">
-    <PossiblyUnusedMethod>
-      <code>getId</code>
-      <code>getQuestions</code>
-      <code>getQuizId</code>
-      <code>isPassed</code>
-    </PossiblyUnusedMethod>
     <RedundantConditionGivenDocblockType>
       <code><![CDATA[!$this->questions->contains($question)]]></code>
     </RedundantConditionGivenDocblockType>
-  </file>
-  <file src="src/Quiz/ResultsStorage/Orm/ResultRepository.php">
-    <PossiblyUnusedParam>
-      <code>$registry</code>
-    </PossiblyUnusedParam>
   </file>
 </files>

@@ -71,8 +71,6 @@ final class EnterDwarfsKingdomCommand extends Command
      * It is not recommended to read the content of the execute method if you have not tried to run the command yet!
      *
      * Do try playing the quest without knowing the story first!!! It would give you way more fun! I promise! :)
-     *
-     * @psalm-suppress UnnecessaryVarAnnotation
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
