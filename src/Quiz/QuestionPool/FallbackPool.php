@@ -20,16 +20,16 @@ final readonly class FallbackPool implements QuestionPoolInterface
     /**
      * @throws \Exception if RandomPool fails
      */
-    public function getQuestions(): iterable
+    public function getQuestions(int $limit = null): iterable
     {
         $cnt = 0;
-        foreach ($this->decoratedPool->getQuestions() as $question) {
+        foreach ($this->decoratedPool->getQuestions($limit) as $question) {
             yield $question;
             ++$cnt;
         }
 
         if (0 === $cnt) {
-            yield from $this->fallbackPool->getQuestions();
+            yield from $this->fallbackPool->getQuestions($limit);
         }
     }
 }

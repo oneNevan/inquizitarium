@@ -18,7 +18,7 @@ use App\Quiz\Domain\QuestionPool\QuestionPoolInterface;
 final readonly class RandomPool implements QuestionPoolInterface
 {
     public function __construct(
-        private int $questionsCount = 10,
+        private int $poolSize = 100,
         private int $maxAnswerOptions = 5,
         private int $maxOperandValue = 10,
     ) {
@@ -27,9 +27,9 @@ final readonly class RandomPool implements QuestionPoolInterface
     /**
      * @throws \Exception
      */
-    public function getQuestions(): iterable
+    public function getQuestions(int $limit = null): iterable
     {
-        return new \ArrayIterator(iterator_to_array($this->getIterator()));
+        return new \ArrayIterator(iterator_to_array($this->getIterator($limit)));
     }
 
     /**
@@ -37,9 +37,9 @@ final readonly class RandomPool implements QuestionPoolInterface
      *
      * @throws \Exception if random_int(...) fails
      */
-    private function getIterator(): \Generator
+    private function getIterator(int $limit = null): \Generator
     {
-        $i = $this->questionsCount;
+        $i = null === $limit ? $this->poolSize : min($limit, $this->poolSize);
         while ($i-- > 0) {
             $a = random_int(0, $this->maxOperandValue);
             $b = random_int(0, $this->maxOperandValue);

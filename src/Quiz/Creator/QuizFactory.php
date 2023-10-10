@@ -19,14 +19,9 @@ final readonly class QuizFactory implements QuizFactoryInterface
 
     public function create(QuestionPoolInterface $pool, int $questionsLimit = null): Quiz
     {
-        $cnt = 0;
         $questions = [];
-        foreach ($pool->getQuestions() as $question) {
-            if (null !== $questionsLimit && $cnt >= $questionsLimit) {
-                break;
-            }
+        foreach ($pool->getQuestions($questionsLimit) as $question) {
             $questions[] = $question;
-            ++$cnt;
         }
 
         if (empty($questions)) {

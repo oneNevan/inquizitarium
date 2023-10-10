@@ -14,7 +14,7 @@ class QuizFactoryTest extends TestCase
     public function testCreateWithRandomPool(): void
     {
         $factory = new QuizFactory();
-        $quiz = $factory->create(new RandomPool(questionsCount: 10, maxAnswerOptions: 5));
+        $quiz = $factory->create(new RandomPool(poolSize: 10, maxAnswerOptions: 5));
         $this->assertCount(10, $quiz->getQuestions());
 
         foreach ($quiz->getQuestions() as $question) {
@@ -27,6 +27,6 @@ class QuizFactoryTest extends TestCase
     public function testEmptyQuestionPool(): void
     {
         $this->expectExceptionObject(new QuestionPoolIsEmptyException());
-        (new QuizFactory())->create(new RandomPool(questionsCount: 0));
+        (new QuizFactory())->create(new RandomPool(poolSize: 0));
     }
 }

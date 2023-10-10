@@ -7,7 +7,9 @@ namespace App\Quiz\Domain\QuestionPool;
 interface QuestionPoolInterface
 {
     /**
+     * @param positive-int|null $limit
+     *
      * @return iterable<Question>
      */
-    public function getQuestions(): iterable;
+    public function getQuestions(int $limit = null): iterable;
 }

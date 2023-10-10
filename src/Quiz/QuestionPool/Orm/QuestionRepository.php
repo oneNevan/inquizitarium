@@ -33,4 +33,14 @@ class QuestionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @param positive-int|null $limit
+     *
+     * @return Question[]
+     */
+    public function getAll(int $limit = null): array
+    {
+        return $this->findBy([], limit: $limit);
+    }
 }

@@ -17,13 +17,9 @@ final readonly class DatabasePool implements QuestionPoolInterface
     ) {
     }
 
-    /**
-     * TODO: add $limit argument to getQuestions() method?
-     *  So that question pool could stop if limit reached.
-     */
-    public function getQuestions(/* int $limit = null */): iterable
+    public function getQuestions(int $limit = null): iterable
     {
-        foreach ($this->shuffle ? $this->repository->getRandom() : $this->repository->findAll() as $question) {
+        foreach ($this->shuffle ? $this->repository->getRandom($limit) : $this->repository->getAll($limit) as $question) {
             $answers = $question->getAnswerOptions();
             if ($this->shuffle) {
                 // it's fine to shuffle few answers after getting from the database, no performance concern here...
