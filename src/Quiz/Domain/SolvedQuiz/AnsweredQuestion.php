@@ -16,7 +16,7 @@ final readonly class AnsweredQuestion
      * @param non-empty-list<AnswerOption> $answers
      */
     public function __construct(
-        private ExpressionInterface $question,
+        private ExpressionInterface $expression,
         private ComparisonOperator $comparisonOperator,
         #[Assert\NotBlank]
         private array $answers,
@@ -25,7 +25,7 @@ final readonly class AnsweredQuestion
 
     public function getExpression(): ExpressionInterface
     {
-        return $this->question;
+        return $this->expression;
     }
 
     public function getComparisonOperator(): ComparisonOperator
