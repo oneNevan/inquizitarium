@@ -102,7 +102,7 @@ final class EnterDwarfsKingdomCommand extends Command
         $this->askConfirmationToProceed($io, force: !$canWait);
 
         $io->comment([
-            "Just after you get through the enter, you've noticed an unexpectedly huge! and scary Dwarf! 😱",
+            "Just after you got through the enter, you've noticed a scary and unexpectedly huge! ... Dwarf?!?! 😱",
             "He didn't see you. Yet..",
         ]);
         $hasTriedToRunAway = 'Run away!' === $io->choice('What will you do? Think fast! 😱', [
@@ -134,6 +134,7 @@ final class EnterDwarfsKingdomCommand extends Command
         $this->askConfirmationToProceed($io, force: !$canWait);
 
         // creating a quiz is a potentially time-consuming operation that might fail in many ways
+        // so, I'm trying to integrate the delays and potential failures into the story
 
         try {
             if ('impossible' === $difficulty) {
@@ -175,21 +176,21 @@ final class EnterDwarfsKingdomCommand extends Command
         $this->displayWaitingIndicator(
             $output,
             hint: 'It\'s better to be patient and stay put.. Just wait..',
-            result: $canWait ? 'He is back!' : 'Wow! That was fast!.. When did he get back?!',
+            result: $canWait ? 'He is back!' : 'Wow! That was fast!.. When did he got back?!',
             seconds: $immersiveWaitingTime,
         );
         $this->askConfirmationToProceed($io, force: !$canWait);
 
         $io->note(['You!', 'Here?', 'Good you.', 'Start time.']);
         $io->comment([
-            'The Dwarf brought a brown dirty sack with lots of durable wooden cards.',
+            'The Dwarf brought a dark dirty sack with lots of durable wooden cards.',
             "He took $questionsCnt out of the sack, put the sack aside, and handed the first one to you..",
         ]);
         $this->askConfirmationToProceed($io, force: !$canWait);
 
         $io->note(['Go!', 'Take!', 'You!', $hasTriedToRunAway ? 'Coward..' : 'Silly..', 'Chicken 🐔']);
         $io->comment([
-            "He doesn't look clever, but he is huge! Could carry a ton of cards.. The Big one 💪 !",
+            "He doesn't look clever, but he is huge! He could've carried a ton of cards!.. The Big one 💪 !",
             "You've put together all the bravery you had and took the card..",
         ]);
         $this->askConfirmationToProceed($io, force: !$canWait);
@@ -197,11 +198,11 @@ final class EnterDwarfsKingdomCommand extends Command
         $io->warning([
             "This is the main part! It's time to focus and be brilliant!!! 🤓",
             'You need to choose at least one option.',
-            'Use UP and DOWN arrows to make your choice or type multiple options separated by comma (,)',
+            'Use ⬆️  [UP] and ⬇️  [DOWN] arrows to make your choice or type multiple options separated by comma [,]',
         ]);
-        $io->comment('You turned the card around, and noticed additional but ambiguous instruction, what would that mean?..');
+        $io->comment("You've turned the card around, and noticed additional but ambiguous instruction. What would that mean?..");
         $io->section('https://symfony.com/doc/current/components/console/helpers/questionhelper.html#multiple-choices');
-        $io->comment("Whatever.. move on! What's on the first card?!");
+        $io->comment("Whatever.. Move on! What's on the first card?!");
         $this->askConfirmationToProceed($io, force: !$canWait);
 
         $answeredQuestions = [];
@@ -214,7 +215,7 @@ final class EnterDwarfsKingdomCommand extends Command
             if (1 === $i) {
                 $progressComment = [
                     'You handed the first card back to the Big one.',
-                    'He took it and showed it to another dwarf. [the Smart one 🧠 ?]',
+                    'He took it and showed it to another dwarf being here all the time. [the Smart one 🧠 ?!]',
                     'He took a brief look and nodded approvingly.',
                     'The Big one put the card to another white sack which seemed empty, and handed the next card to you.. ',
                     'So, now you know the drills! Looks like you just need to go ahead and see what happens next?!.. ',
