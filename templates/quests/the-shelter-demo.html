@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inquizitarium - The Shelter!</title>
+  <!-- for simplicity using CDN version of Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+          crossorigin="anonymous"></script>
+</head>
+<!-- ################################################################################ -->
+<!-- ###################### !!! WARNING !!! SPOILERS BELOW !!! ###################### -->
+<!-- ###################### SEE README TO FIND OUT HOW TO PLAY ###################### -->
+<!-- ################################################################################ -->
+<body class="font-monospace">
+<div class="d-flex align-items-center min-vh-100">
+  <div class="container text-center col-12 col-lg-8 col-xl-4">
+    <button type="button" class="btn btn-lg btn-outline-dark" id="welcome-button">
+      Knock-knock!
+    </button>
+    <form action="#" id="new-quiz-form" class="d-none">
+      <h4>Fine! Here you go... </h4>
+      <h2>Now - prove yourself!</h2>
+      <br>
+      <div id="new-quiz"></div>
+      <br>
+      <button class="btn btn-outline-dark" type="submit">I'm done!</button>
+    </form>
+    <div id="results" class="d-none">
+      <h3>And now - <span class="text-uppercase">face the music!</span></h3>
+      <br>
+      <div id="checked-quiz"></div>
+      <a href="about:blank" class="btn btn-light" type="button">Run away</a>
+      <button id="new-quiz-button" class="btn btn-outline-dark" type="button">No! Please! Let me try аgain!</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="enter-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Hey! Who's that?!</h1>
+      </div>
+      <div class="modal-body">
+        <p>- Who the heck are you and what are you doing here at such a time?! Have you lost your mind?</p>
+        <p>- ...</p>
+        <p>- Did you forget about the damn witches roaming here searching for victims?</p>
+        <p>- ...</p>
+        <p>- Your silence is driving me crazy... I cannot just let you in!</p>
+        <p>- ...............</p>
+        <p>- Don't look at me like this!</p>
+        <p>- ...</p>
+        <p>- Well...Okay! But you know our <span class="text-decoration-underline text-primary" id="the-rules-ref">Rules</span>, right?</p>
+        <p>- ......</p>
+        <p>- So, if you wanna get inside - pass our Test! <span class="text-uppercase">Or get out of here!!!</span></p>
+      </div>
+      <div class="modal-footer">
+        <a href="about:blank" class="btn btn-light">Leave</a>
+        <button type="button" id="enter-button" class="btn btn-outline-dark">Take the Test</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Toast-->
+<div class="toast-container text-center top-0 start-50 translate-middle-x p-3">
+  <div id="the-rules" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header text-center">
+      <strong>The Rules of Inquizitarium...</strong>
+    </div>
+    <div class="toast-body text-uppercase">No dumbs and witches in our place!</div>
+  </div>
+</div>
+</body>
+</html>
+<script>
+  // NOTE: the JS code bellow is just a simple demo of Quiz API capabilities. It's not meant to be perfect...
+  class App {
+    constructor(bsModal) {
+      this.modal = bsModal;
+    }
+
+    showModal() {
+      this.modal.show();
+    }
+
+    async startQuiz() {
+      const response = await fetch('/api/v1/quiz', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          questionsCount: 10,
+        }),
+      });
+      if (response.ok) {
+        this.displayQuiz(await response.json());
+      } else {
+        alert('Something went wrong while sending request to /api/v1/quiz');
+        console.error(response);
+      }
+    }
+
+    displayQuiz(response) {
+      const quizContainer = document.getElementById('new-quiz');
+      quizContainer.dataset.quizId = response.id;
+      response.questions.forEach((q) => {
+        const questionContainer = document.createElement('div');
+        questionContainer.classList.add('input-group', 'my-2');
+        questionContainer.innerHTML = `<span class="input-group-text justify-content-center col-2">${q.expression} ${q.comparisonOperator}</span>`;
+        const select = document.createElement('select');
+        select.dataset.questionExpr = q.expression;
+        select.dataset.questionComparisonOperator = q.comparisonOperator;
+        select.classList.add('form-select', 'col-10');
+        select.multiple = true;
+        select.required = true;
+        q.answerOptions.forEach((a) => {
+          select.options.add(new Option(a, a));
+        });
+        select.size = select.options.length;
+        questionContainer.appendChild(select);
+        quizContainer.appendChild(questionContainer);
+      });
+      this.modal.hide();
+      document.getElementById('welcome-button').classList.add('d-none')
+      // ensure previous results get removed when new quiz starts (if that's the case)
+      const container = document.getElementById('checked-quiz');
+      container.innerHTML = '';
+      container.parentElement.classList.add('d-none');
+
+      quizContainer.parentElement.classList.remove('d-none');
+    }
+
+    createCheckQuizPayload() {
+      const answeredQuestions = [];
+      const quiz = document.getElementById('new-quiz');
+      const selects = document.querySelectorAll('#new-quiz select');
+      selects.forEach((select) => {
+        answeredQuestions.push({
+          expression: select.dataset.questionExpr,
+          comparisonOperator: select.dataset.questionComparisonOperator,
+          answers: Array.from(select.options).map((option) => {
+            return {
+              expression: option.value,
+              isSelected: option.selected
+            };
+          })
+        })
+      });
+
+      return {
+        quizId: quiz.dataset.quizId,
+        questions: answeredQuestions
+      };
+    }
+
+    async submitQuiz(event) {
+      event.preventDefault();
+      event.target.classList.add('d-none'); // hide form
+
+      const response = await fetch('/api/v1/quiz/check', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(this.createCheckQuizPayload()),
+      });
+      if (response.ok) {
+        this.displayQuizResult(await response.json());
+      } else {
+        alert('Something went wrong while sending request to /api/v1/quiz/check');
+        event.target.classList.remove('d-none'); // show form on error
+        console.error(response);
+      }
+    }
+
+    displayQuizResult(response) {
+      document.getElementById('new-quiz').innerHTML = ''; // clear previous question pool
+
+      const container = document.getElementById('checked-quiz');
+
+      const correctList = response.questions.filter((q) => q.answerCorrect);
+      const wrongList = response.questions.filter((q) => !q.answerCorrect);
+
+      if (correctList.length > 0) {
+        const div = document.createElement('div');
+        div.innerHTML = '<h4>Correct..<h4>'
+        container.appendChild(div);
+        correctList.forEach((answeredQuestion) => {
+          container.appendChild(this.createCheckedQuestionElement(answeredQuestion));
+        })
+      }
+
+      if (wrongList.length > 0) {
+        const div = document.createElement('div');
+        div.innerHTML = '<h4>Wrong!<h4>'
+        container.appendChild(div);
+        wrongList.forEach((answeredQuestion) => {
+          container.appendChild(this.createCheckedQuestionElement(answeredQuestion));
+        })
+      }
+
+      const result = document.createElement('div');
+      if (response.passed) {
+        result.innerHTML =`
+        <p>- A WITCH!</p>
+        <p>- Someone bring our <strong>Inquizitor!</strong></p>
+        <p>- Hurry up!!! We've got a witch to burn!...</p>
+        `;
+      } else {
+        result.innerHTML =`
+        <p>- A DUMB! You've seen THE RULES?!</p>
+        <p>- Get out of here!</p>
+        <p>- Or you will be burned like those freaking witches!</p>
+        `;
+      }
+      container.appendChild(result);
+
+      container.parentElement.classList.remove('d-none');
+    }
+
+    createCheckedQuestionElement(q) {
+      const inputGroup = document.createElement('div');
+      inputGroup.classList.add('input-group', 'my-2');
+
+      const groupText = document.createElement('span');
+      groupText.innerText = `${q.expression} ${q.comparisonOperator}`;
+      groupText.classList.add(
+        'input-group-text',
+        'justify-content-center',
+        'col-2',
+        q.answerCorrect ? 'bg-success-subtle' : 'bg-danger-subtle'
+      );
+      inputGroup.appendChild(groupText);
+
+      const select = document.createElement('select');
+      select.classList.add('form-select', 'col-10');
+      select.multiple = true;
+      q.answers.forEach((a) => {
+        const option = new Option(a.expression, a.expression);
+        if (a.correct === true) {
+          option.classList.add('bg-success-subtle');
+        } else if (a.correct === false) {
+          option.classList.add('bg-danger-subtle');
+        }
+        select.options.add(option);
+      });
+      select.size = select.options.length;
+      inputGroup.appendChild(select);
+
+      return inputGroup;
+    }
+  }
+
+  // Init
+  document.addEventListener("DOMContentLoaded", () => {
+    const app = new App(new bootstrap.Modal('#enter-modal', {
+      backdrop: 'static',
+    }));
+    document.getElementById('welcome-button').addEventListener('click', app.showModal.bind(app));
+    document.getElementById('enter-button').addEventListener('click', app.startQuiz.bind(app));
+    document.getElementById('new-quiz-button').addEventListener('click', app.startQuiz.bind(app));
+    document.getElementById('new-quiz-form').addEventListener('submit', app.submitQuiz.bind(app));
+
+    // simple but fun! toast
+    const toastTrigger = document.getElementById('the-rules-ref')
+    const toastLiveExample = document.getElementById('the-rules')
+    if (toastTrigger) {
+      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+      toastTrigger.addEventListener('mouseover', () => {
+        toastBootstrap.show();
+      })
+      toastTrigger.addEventListener('mouseout', () => {
+        toastBootstrap.hide();
+      })
+    }
+  });
+</script>
