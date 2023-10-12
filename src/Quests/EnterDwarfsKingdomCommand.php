@@ -84,7 +84,7 @@ final class EnterDwarfsKingdomCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $io->caution([
-            'You are about to enter the Inquizitarium - The Dwarfs Kingdom!',
+            'You are about to enter Inquizitarium - The Dwarfs Kingdom!',
             'There is a real chance that you might not survive ☠️  in this adventure... ',
         ]);
 
@@ -98,11 +98,11 @@ final class EnterDwarfsKingdomCommand extends Command
         }
 
         $io->title(\PHP_EOL.'!!! Welcome to Inquizitarium - The Dwarfs Kingdom !!!');
-        $io->warning('From now on, your destiny totally depends on your actions! Be careful.. Good luck! 🍀');
+        $io->warning('From now on, your destiny totally depends on your actions! Be careful.. and good luck! 🍀');
         $this->askConfirmationToProceed($io, force: !$canWait);
 
         $io->comment([
-            "Just after you got through the enter, you've noticed a scary and unexpectedly huge! ... Dwarf?!?! 😱",
+            "Just after you got through the enter, you've noticed a scary and unbelievably huge! ... Dwarf?!?! 😱",
             "He didn't see you. Yet..",
         ]);
         $hasTriedToRunAway = 'Run away!' === $io->choice('What will you do? Think fast! 😱', [
@@ -505,10 +505,7 @@ final class EnterDwarfsKingdomCommand extends Command
             'Maybe you will be luckier 🍀  next time!?',
             'If you dare..',
         ]);
-        $io->info([
-            'Seek for --help if you got stuck!',
-            'Use --no-waiting to skip annoying delays if you are impatient or short of time.',
-        ]);
+        $this->printHelp($io);
 
         return Command::SUCCESS;
     }

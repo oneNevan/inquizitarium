@@ -55,7 +55,7 @@
         <p>- ...............</p>
         <p>- Don't look at me like this!</p>
         <p>- ...</p>
-        <p>- Well...Okay! But you know our <span class="text-decoration-underline text-primary" id="the-rules-ref">Rules</span>, right?</p>
+        <p>- Well...Okay! But you know <span class="text-decoration-underline text-primary" id="the-rules-ref">the Rules</span>, right?</p>
         <p>- ......</p>
         <p>- So, if you wanna get inside - pass our Test! <span class="text-uppercase">Or get out of here!!!</span></p>
       </div>
@@ -212,13 +212,13 @@
       if (response.passed) {
         result.innerHTML =`
         <p>- A WITCH!</p>
-        <p>- Someone bring our <strong>Inquizitor!</strong></p>
+        <p>- Someone bring <strong>the Inquizitor!</strong></p>
         <p>- Hurry up!!! We've got a witch to burn!...</p>
         `;
       } else {
         result.innerHTML =`
-        <p>- A DUMB! You've seen THE RULES?!</p>
-        <p>- Get out of here!</p>
+        <p>- A DUMB!</p>
+        <p>- Have you read THE RULES?! So get out!</p>
         <p>- Or you will be burned like those freaking witches!</p>
         `;
       }
@@ -270,17 +270,12 @@
     document.getElementById('new-quiz-button').addEventListener('click', app.startQuiz.bind(app));
     document.getElementById('new-quiz-form').addEventListener('submit', app.submitQuiz.bind(app));
 
-    // simple but fun! toast
-    const toastTrigger = document.getElementById('the-rules-ref')
-    const toastLiveExample = document.getElementById('the-rules')
-    if (toastTrigger) {
-      const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-      toastTrigger.addEventListener('mouseover', () => {
-        toastBootstrap.show();
-      })
-      toastTrigger.addEventListener('mouseout', () => {
-        toastBootstrap.hide();
-      })
-    }
+    // toast - simple but fun!
+    const toastTrigger = document.getElementById('the-rules-ref');
+    const theRulesToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('the-rules'), {
+      autohide: false,
+    });
+    toastTrigger.addEventListener('mouseover', () => theRulesToast.show());
+    toastTrigger.addEventListener('mouseout', () => theRulesToast.hide());
   });
 </script>
