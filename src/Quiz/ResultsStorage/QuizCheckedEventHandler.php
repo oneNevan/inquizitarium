@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Quiz\ResultsStorage;
 
-use App\Math\Domain\Expression\ExpressionInterface;
+use App\Quiz\Domain\CheckedQuiz\CheckedQuestion;
 use App\Quiz\Domain\QuizCheckedEvent;
 use App\Quiz\ResultsStorage\Orm\Answer;
 use App\Quiz\ResultsStorage\Orm\Question;
@@ -27,11 +27,8 @@ final readonly class QuizCheckedEventHandler
             ->setIsPassed($checkedQuiz->isPassed());
 
         foreach ($checkedQuiz->getQuestions() as $checkedQuestion) {
-            $text = $this->formatExpr($checkedQuestion->getExpression())
-                .$checkedQuestion->getComparisonOperator()->value;
-
             $question = (new Question())
-                ->setText($text)
+                ->setText($this->formatTest($checkedQuestion))
                 ->setIsAnswerAccepted($checkedQuestion->isAnswerCorrect());
             $result->addQuestion($question);
 
@@ -39,7 +36,7 @@ final readonly class QuizCheckedEventHandler
                 $question->addAnswer(
                     (new Answer())
                         ->setIsCorrect($checkedAnswer->isCorrect())
-                        ->setText($this->formatExpr($checkedAnswer->getExpression()))
+                        ->setText($checkedAnswer->getExpression()->__toString())
                 );
             }
         }
@@ -48,11 +45,8 @@ final readonly class QuizCheckedEventHandler
         $this->entityManager->flush();
     }
 
-    /**
-     * Removes all spaces from expressions before saving it in database.
-     */
-    private function formatExpr(ExpressionInterface $expr): string
+    private function formatTest(CheckedQuestion $checkedQuestion): string
     {
-        return preg_replace(pattern: '/\s+/', replacement: '', subject: (string) $expr);
+        return $checkedQuestion->getExpression()->__toString().' '.$checkedQuestion->getComparisonOperator()->value;
     }
 }

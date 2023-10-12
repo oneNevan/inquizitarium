@@ -44,28 +44,28 @@ class QuizCheckedEventHandlerTest extends KernelTestCase
         // question 1
         $this->assertNotNull($questions[0]->getId());
         $this->assertTrue($questions[0]->isAnswerAccepted());
-        $this->assertSame('2+2=', $questions[0]->getText());
+        $this->assertSame('2 + 2 =', $questions[0]->getText());
         /** @var list<Answer> $answers */
         $answers = $questions[0]->getAnswers();
         $this->assertCount(2, $answers);
-        $this->assertSame('1+3', $answers[0]->getText());
+        $this->assertSame('1 + 3', $answers[0]->getText());
         $this->assertNotNull($answers[0]->getId());
         $this->assertTrue($answers[0]->isCorrect());
-        $this->assertSame('4+2', $answers[1]->getText());
+        $this->assertSame('4 + 2', $answers[1]->getText());
         $this->assertNotNull($answers[1]->getId());
         $this->assertNull($answers[1]->isCorrect());
 
         // question 2
         $this->assertNotNull($questions[1]->getId());
         $this->assertFalse($questions[1]->isAnswerAccepted());
-        $this->assertSame('3+7=', $questions[1]->getText());
+        $this->assertSame('3 + 7 =', $questions[1]->getText());
         /** @var list<Answer> $answers */
         $answers = $questions[1]->getAnswers();
         $this->assertCount(3, $answers);
-        $this->assertSame('6+2', $answers[0]->getText());
+        $this->assertSame('6 + 2', $answers[0]->getText());
         $this->assertNotNull($answers[0]->getId());
         $this->assertFalse($answers[0]->isCorrect());
-        $this->assertSame('2+3', $answers[1]->getText());
+        $this->assertSame('2 + 3', $answers[1]->getText());
         $this->assertNotNull($answers[1]->getId());
         $this->assertNull($answers[1]->isCorrect());
         $this->assertSame('10', $answers[2]->getText());

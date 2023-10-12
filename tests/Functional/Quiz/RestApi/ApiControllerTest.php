@@ -26,7 +26,7 @@ class ApiControllerTest extends WebTestCase
               "id": "$newQuizId",
               "questions": [
                 {
-                  "expression": "1+1",
+                  "expression": "1 + 1",
                   "comparisonOperator": "=",
                   "answerOptions": ["3", "2", "0"]
                 }

@@ -28,9 +28,13 @@ class Result
     #[ORM\OneToMany(mappedBy: 'result', targetEntity: Question::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $questions;
 
+    #[ORM\Column]
+    private \DateTimeImmutable $createdAt;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -78,5 +82,10 @@ class Result
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }
