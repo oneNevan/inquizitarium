@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Quiz\QuestionPool;
 
-use App\Quiz\Domain\QuestionPool\QuestionPoolInterface;
-use App\Quiz\QuestionPool\FallbackPool;
-use App\Quiz\QuestionPool\RandomPool;
+use App\Quiz\Creator\Domain\Service\QuestionPool\FallbackPool;
+use App\Quiz\Creator\Domain\Service\QuestionPool\RandomPool;
+use App\Quiz\Creator\Domain\Service\QuestionPoolInterface;
 use PHPUnit\Framework\TestCase;
 
 class FallbackPoolTest extends TestCase

@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-use App\Quiz\Checker\CheckedQuizFactory;
-use App\Quiz\Checker\CheckQuizHandler;
-use App\Quiz\Checker\Policy\FuzzyQuestionChecking;
-use App\Quiz\Checker\Policy\PassedWhenAllAnswersCorrect;
-use App\Quiz\Checker\Policy\QuestionCheckingPolicyInterface;
-use App\Quiz\Checker\Policy\QuizAssessmentPolicyInterface;
-use App\Quiz\Domain\CheckedQuiz\QuizFactoryInterface;
+use App\Core\Infrastructure\Symfony\Messenger\CommandBus;
+use App\Quiz\Checker\Application\CheckQuizHandler;
+use App\Quiz\Checker\Domain\Factory\CheckedQuizFactory;
+use App\Quiz\Checker\Domain\Service\FuzzyQuestionChecking;
+use App\Quiz\Checker\Domain\Service\PassedWhenAllAnswersCorrect;
+use App\Quiz\Checker\Domain\Service\QuestionCheckingPolicyInterface;
+use App\Quiz\Checker\Domain\Service\QuizAssessmentPolicyInterface;
+use App\Quiz\Checker\Infrastructure\ApiController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator): void {
@@ -24,9 +25,10 @@ return static function (ContainerConfigurator $configurator): void {
     $services->alias(QuizAssessmentPolicyInterface::class, PassedWhenAllAnswersCorrect::class);
 
     $services->set(CheckedQuizFactory::class);
-    $services->alias(QuizFactoryInterface::class, CheckedQuizFactory::class);
 
     $services->set(CheckQuizHandler::class)->tag('messenger.message_handler', [
-        'bus' => 'command.bus',
+        'bus' => CommandBus::BUS_NAME,
     ]);
+
+    $services->set(ApiController::class)->tag('controller.service_arguments');
 };

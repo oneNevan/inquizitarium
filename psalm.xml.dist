@@ -6,7 +6,6 @@
     findUnusedBaselineEntry="true"
     findUnusedCode="false"
     findUnusedPsalmSuppress="true"
-    errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
         <directory name="src"/>
@@ -20,7 +19,7 @@
     </stubs>
     <plugins>
         <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin">
-            <containerXml>var/cache/dev/App_KernelDevDebugContainer.xml</containerXml>
+            <containerXml>var/cache/dev/App_Core_Infrastructure_Symfony_KernelDevDebugContainer.xml</containerXml>
         </pluginClass>
     </plugins>
 

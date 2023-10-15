@@ -90,7 +90,7 @@
     }
 
     async startQuiz() {
-      const response = await fetch('/api/v1/quiz', {
+      const response = await fetch('/api/v1/quiz/create', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +103,7 @@
       if (response.ok) {
         this.displayQuiz(await response.json());
       } else {
-        alert('Something went wrong while sending request to /api/v1/quiz');
+        alert('Something went wrong while sending request to /api/v1/quiz/create');
         console.error(response);
       }
     }

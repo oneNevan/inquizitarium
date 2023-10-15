@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Quests\EnterDwarfsKingdomCommand;
-use App\Quests\TheShelterDemoController;
+use App\Quests\Infrastructure\Console\EnterDwarfsKingdomCommand;
+use App\Quests\Infrastructure\Web\TheShelterDemoController;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $configurator): void {

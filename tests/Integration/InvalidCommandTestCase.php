@@ -15,7 +15,7 @@ trait InvalidCommandTestCase
     public function testInvalidCommand(object $command, string ...$invalidProperties): void
     {
         try {
-            $this->getCommandBus()->dispatch($command);
+            $this->getCommandBus()->execute($command);
             $this->fail(sprintf('Command %s should have failed with ValidationFailedException', $command::class));
         } catch (ValidationFailedException $e) {
             $violations = iterator_to_array($e->getViolations());

@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel;
+use App\Core\Infrastructure\Symfony\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Dotenv\Dotenv;

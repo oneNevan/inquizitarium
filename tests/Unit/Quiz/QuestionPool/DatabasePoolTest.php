@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Quiz\QuestionPool;
 
-use App\Math\Domain\Expression\Expression;
-use App\Math\Domain\Operators\ComparisonOperator;
-use App\Quiz\QuestionPool\DatabasePool;
-use App\Quiz\QuestionPool\Orm\Question;
-use App\Quiz\QuestionPool\Orm\QuestionRepository;
+use App\Math\Domain\ValueObject\Expression;
+use App\Math\Domain\ValueObject\Operator\ComparisonOperator;
+use App\Quiz\Creator\Infrastructure\Orm\Question;
+use App\Quiz\Creator\Infrastructure\Orm\QuestionRepository;
+use App\Quiz\Creator\Infrastructure\Service\DatabasePool;
 use PHPUnit\Framework\TestCase;
 
 class DatabasePoolTest extends TestCase
@@ -21,13 +21,13 @@ class DatabasePoolTest extends TestCase
     {
         $questions = [
             (new Question())
-                ->setExpression('1+1')
+                ->setExpression('1 + 1')
                 ->setComparison(ComparisonOperator::Equal)
-                ->setAnswerOptions(['1+1', '2+2', '3+3', '4+4']),
+                ->setAnswerOptions(['1 + 1', '2 + 2', '3 + 3', '4 + 4']),
             (new Question())
-                ->setExpression('2+2')
+                ->setExpression('2 + 2')
                 ->setComparison(ComparisonOperator::Equal)
-                ->setAnswerOptions(['1+2', '2+3', '3+4', '4+5']),
+                ->setAnswerOptions(['1 + 2', '2 + 3', '3 + 4', '4 + 5']),
         ];
         $repository = $this->createMock(QuestionRepository::class);
         $repository->expects($this->once())
