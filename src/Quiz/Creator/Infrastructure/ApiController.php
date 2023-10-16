@@ -25,6 +25,8 @@ final readonly class ApiController
 
     /**
      * @throws ExceptionInterface
+     *
+     * TODO: describe 400, 422 responses
      */
     #[OA\Tag('Quiz Creator')]
     #[OA\RequestBody(content: new Model(type: CreateQuiz::class))]

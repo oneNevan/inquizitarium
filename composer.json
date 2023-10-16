@@ -2,7 +2,7 @@
     "name": "onenevan/inquizitarium",
     "description": "Inquizitarium - a platform for creating survival quests using built-in quiz generation tools",
     "type": "project",
-    "license": "proprietary",
+    "license": "MIT",
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",

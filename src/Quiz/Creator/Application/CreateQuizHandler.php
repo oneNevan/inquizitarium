@@ -11,7 +11,7 @@ use App\Quiz\Creator\Domain\QuizCreatedEvent;
 use App\Quiz\Creator\Domain\Service\QuestionPoolInterface;
 
 /**
- * TODO: I want a feature to define what question pool should be used for the new quiz (in runtime!).
+ * TODO: A feature to define in runtime what question pool should be used for the new quiz would be nice to have.
  *
  * A way to achieve that:
  *  - each question pool service should be tagged with a custom service tag, i.e.:

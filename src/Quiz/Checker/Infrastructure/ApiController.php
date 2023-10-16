@@ -37,6 +37,8 @@ final readonly class ApiController
 
     /**
      * @throws ExceptionInterface
+     *
+     * TODO: describe 400, 422 responses
      */
     #[OA\Tag('Quiz Checker')]
     #[OA\RequestBody(content: new Model(type: CheckQuiz::class))]
