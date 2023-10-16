@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Core\Infrastructure\Doctrine\Config\DoctrineMappingConfigurator;
 use App\Core\Infrastructure\Symfony\Messenger\CommandBus;
 use App\Quiz\Creator\Application\CreateQuizHandler;
 use App\Quiz\Creator\Domain\Factory\QuizFactory;
@@ -18,11 +17,11 @@ use App\Quiz\Creator\Infrastructure\Service\DatabasePool;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Config\DoctrineConfig;
 
+use function App\DependencyInjection\configureDoctrineMapping;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $configurator, DoctrineConfig $doctrineConfig): void {
-    // Doctrine ORM mapping
-    DoctrineMappingConfigurator::configure($doctrineConfig, Question::class);
+    configureDoctrineMapping($doctrineConfig, Question::class);
 
     // Doctrine DQL
     $dql = $doctrineConfig->orm()->entityManager('default')->dql();

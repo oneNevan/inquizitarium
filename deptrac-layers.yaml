@@ -1,0 +1,23 @@
+deptrac:
+    paths:
+        - ./src
+    layers:
+        -   name: Domain
+            collectors:
+                -   type: directory
+                    regex: /src/(?:\w+|\w+\/\w+)/Domain/.*
+        -   name: Application
+            collectors:
+                -   type: directory
+                    regex: /src/(?:\w+|\w+\/\w+)/Application/.*
+        -   name: Infrastructure
+            collectors:
+                -   type: directory
+                    regex: /src/(?:\w+|\w+\/\w+)/Infrastructure/.*
+    ruleset:
+        Domain: ~
+        Application:
+            - Domain
+        Infrastructure:
+            - Domain
+            - Application

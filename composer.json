@@ -1,8 +1,8 @@
 {
+    "name": "onenevan/inquizitarium",
+    "description": "Inquizitarium - a platform for creating survival quests using built-in quiz generation tools",
     "type": "project",
     "license": "proprietary",
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
@@ -35,6 +35,7 @@
         "friendsofphp/php-cs-fixer": "^3.34",
         "phpunit/phpunit": "^9.6",
         "psalm/plugin-symfony": "^5.0",
+        "qossmic/deptrac-shim": "^1.0",
         "symfony/browser-kit": "6.3.*",
         "symfony/css-selector": "6.3.*",
         "symfony/maker-bundle": "^1.51",
@@ -50,6 +51,9 @@
         "sort-packages": true
     },
     "autoload": {
+        "files": [
+            "config/functions.php"
+        ],
         "psr-4": {
             "App\\": "src/"
         }
@@ -84,6 +88,8 @@
     "conflict": {
         "symfony/symfony": "*"
     },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "extra": {
         "symfony": {
             "allow-contrib": false,

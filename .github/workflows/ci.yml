@@ -38,6 +38,12 @@ jobs:
         run: docker compose exec -T php vendor/bin/php-cs-fixer fix -v --dry-run
       - name: Run static analyzer (Psalm)
         run: docker compose exec -T php vendor/bin/psalm --no-diff --no-cache
+      - name: Check directories dependencies
+        run: docker compose exec -T vendor/bin/deptrac analyze --config-file=deptrac-directories.yaml --cache-file=var/.deptrac-directories.cache
+      - name: Check layers dependencies
+        run: docker compose exec -T vendor/bin/deptrac analyze --config-file=deptrac-layers.yaml --cache-file=var/.deptrac-layers.cache
+      - name: Check modules dependencies
+        run: docker compose exec -T vendor/bin/deptrac analyze --config-file=deptrac-modules.yaml --cache-file=var/.deptrac-modules.cache
       - name: Run Unit tests
         run: docker compose exec -T php bin/phpunit tests/Unit/
       - name: Create test database

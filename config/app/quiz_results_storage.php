@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Core\Infrastructure\Doctrine\Config\DoctrineMappingConfigurator;
 use App\Core\Infrastructure\Symfony\Messenger\EventBus;
 use App\Quiz\ResultsStorage\Application\QuizCheckedEventHandler;
 use App\Quiz\ResultsStorage\Domain\Repository\ResultRepositoryInterface;
@@ -14,12 +13,14 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Config\DoctrineConfig;
 
+use function App\DependencyInjection\configureDoctrineMapping;
+
 return static function (
     ContainerConfigurator $configurator,
     DoctrineConfig $doctrineConfig,
     ContainerBuilder $builder,
 ): void {
-    DoctrineMappingConfigurator::configure($doctrineConfig, entity: Result::class);
+    configureDoctrineMapping($doctrineConfig, entity: Result::class);
 
     $services = $configurator->services();
     $services->defaults()

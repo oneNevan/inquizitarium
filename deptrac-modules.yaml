@@ -1,0 +1,43 @@
+deptrac:
+    paths:
+        - ./src
+    layers:
+        -   name: Core
+            collectors:
+                -   type: directory
+                    regex: /src/Core/.*
+        -   name: Math
+            collectors:
+                -   type: directory
+                    regex: /src/Math/.*
+        -   name: Quests
+            collectors:
+                -   type: directory
+                    regex: /src/Quests/.*
+        -   name: QuizCreator
+            collectors:
+                -   type: directory
+                    regex: /src/Quiz/Creator/.*
+        -   name: QuizChecker
+            collectors:
+                -   type: directory
+                    regex: /src/Quiz/Checker/.*
+        -   name: QuizResultsStorage
+            collectors:
+                -   type: directory
+                    regex: /src/Quiz/ResultsStorage/.*
+    ruleset:
+        Core: ~
+        Math: ~
+        Quests:
+            - Core
+            - QuizCreator
+            - QuizChecker
+        QuizCreator:
+            - Core
+            - Math
+        QuizChecker:
+            - Core
+            - Math
+        QuizResultsStorage:
+            - QuizChecker
