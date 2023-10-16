@@ -29,8 +29,8 @@ There are 4 modules in `/src` directory
   - `Checker` - a module responsible for checking Quizzes
   - `ResultsStorage` - a module responsible for persisting Quiz Results provided by Quiz Checker module
 - `Quests` - a module with all Quests using different UI (Cli, Web, etc.)
-  - "The Shelter Demo" quest demonstrates short simplified example how Quiz modules can be integrated into Web applications via Rest API
-  - "The Dwarf Kingdom" quest implements CLI approach using direct CommandBus
+  - "The Shelter Demo" quest demonstrates a short simplified example how Quiz modules can be integrated into Web applications via Rest API
+  - "The Dwarf Kingdom" quest implements CLI approach using a CommandBus to communicate with Quiz modules
 
 _Dependency rules between modules are described in [deptrac-modules.yaml](deptrac-modules.yaml) file in project root._
 

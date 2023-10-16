@@ -13,17 +13,14 @@
 ```
 git clone git@github.com:oneNevan/inquizitarium.git && cd inquizitarium 
 ```
-#### 2. Start the project using `make` command
+#### 2. Start the project using `make start` command
+- **_NOTE_**: The application uses `80` and `443` ports by default. If these ports are already in use, try specifying other free ports, i.e.:
 ```
-make start
+HTTP_PORT=8000 HTTPS_PORT=4443 make start
 ```
 OR using `docker compose` commands
 ```
-docker compose build --pull --no-cache && docker compose up -d
-```
-- **_NOTE_**: The application will not start if `80` and/or `443` ports are already in use. If so, try specifying other free ports:
-```
-HTTP_PORT=8000 HTTPS_PORT=4443 make start
+docker compose build --pull --no-cache && HTTP_PORT=8000 HTTPS_PORT=4443 docker compose up -d
 ```
 #### 3. Migrate database
 Run database migration command
