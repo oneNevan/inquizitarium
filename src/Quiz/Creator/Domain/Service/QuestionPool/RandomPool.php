@@ -15,10 +15,17 @@ use App\Quiz\Creator\Domain\ValueObject\Question;
  */
 final readonly class RandomPool implements QuestionPoolInterface
 {
+    /**
+     * @param positive-int $poolSize
+     * @param positive-int $maxAnswerOptions
+     * @param positive-int $maxOperandValue
+     * @param positive-int $minOperandValue
+     */
     public function __construct(
         private int $poolSize = 100,
         private int $maxAnswerOptions = 5,
         private int $maxOperandValue = 10,
+        private int $minOperandValue = 1,
     ) {
     }
 
@@ -39,10 +46,10 @@ final readonly class RandomPool implements QuestionPoolInterface
     {
         $i = null === $limit ? $this->poolSize : min($limit, $this->poolSize);
         while ($i-- > 0) {
-            $a = random_int(0, $this->maxOperandValue);
-            $b = random_int(0, $this->maxOperandValue);
+            $a = random_int($this->minOperandValue, $this->maxOperandValue);
+            $b = random_int($this->minOperandValue, $this->maxOperandValue);
             $answers = [
-                Expression::new((string) ($a + $b)), // indeed correct answer (at least one required)
+                $this->createCorrectAnswer($a, $b),
                 ...$this->createRandomAnswers(count: random_int(1, $this->maxAnswerOptions - 1)),
             ];
             shuffle($answers); // so that the correct answer is not always first
@@ -53,6 +60,26 @@ final readonly class RandomPool implements QuestionPoolInterface
                 $answers
             );
         }
+    }
+
+    /**
+     * Any question requires at least one correct answer, so we have to generate explicitly.
+     *
+     * @throws \Exception if random_int(...) fails
+     */
+    private function createCorrectAnswer(int $a, int $b): Expression
+    {
+        if (random_int(-10, 20) > 0) {
+            // create real expression from total so that "a + b = x + y" is true
+            $total = $a + $b;
+            $x = random_int($this->minOperandValue, $total);
+            $y = $total - $x;
+
+            return Expression::new("$x + $y");
+        }
+
+        // create an expression simple natural int
+        return Expression::new((string) ($a + $b));
     }
 
     /**
