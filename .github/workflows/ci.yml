@@ -34,16 +34,18 @@ jobs:
             *.cache-to=type=gha,scope=${{github.ref}},mode=max
       - name: Start services
         run: docker compose up --wait --no-build
+      - name: Composer install
+        run: docker compose exec -T php composer install --no-interaction
       - name: Run linter (PHP CS Fixer)
         run: docker compose exec -T php vendor/bin/php-cs-fixer fix -v --dry-run
       - name: Run static analyzer (Psalm)
         run: docker compose exec -T php vendor/bin/psalm --no-diff --no-cache
       - name: Check directories dependencies
-        run: docker compose exec -T vendor/bin/deptrac analyze --config-file=deptrac-directories.yaml --cache-file=var/.deptrac-directories.cache
+        run: docker compose exec -T php vendor/bin/deptrac analyze --config-file=deptrac-directories.yaml --cache-file=var/.deptrac-directories.cache
       - name: Check layers dependencies
-        run: docker compose exec -T vendor/bin/deptrac analyze --config-file=deptrac-layers.yaml --cache-file=var/.deptrac-layers.cache
+        run: docker compose exec -T php vendor/bin/deptrac analyze --config-file=deptrac-layers.yaml --cache-file=var/.deptrac-layers.cache
       - name: Check modules dependencies
-        run: docker compose exec -T vendor/bin/deptrac analyze --config-file=deptrac-modules.yaml --cache-file=var/.deptrac-modules.cache
+        run: docker compose exec -T php vendor/bin/deptrac analyze --config-file=deptrac-modules.yaml --cache-file=var/.deptrac-modules.cache
       - name: Run Unit tests
         run: docker compose exec -T php bin/phpunit tests/Unit/
       - name: Create test database
@@ -56,6 +58,8 @@ jobs:
         run: docker compose exec -T php bin/console -e test doctrine:fixtures:load --append
       - name: Run Integration tests
         run: docker compose exec -T php bin/phpunit tests/Integration/
+      - name: Run Functional tests
+        run: docker compose exec -T php bin/phpunit tests/Functional/
       - name: Check HTTP reachability
         run: curl -v -o /dev/null http://localhost
       - name: Check HTTPS reachability
